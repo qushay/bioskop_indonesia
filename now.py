@@ -1,5 +1,20 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+data = []
+
+@app.route('/now', methods=['GET'])
+def get_now():
+    result = []
+    for movie in data:
+        jmovie = {
+            'name': movie[0],
+            'url': movie[1]
+        }
+        result.append(jmovie)
+    return jsonify({'data':result})
 
 class runSelenium(object):
     def __init__(self):
@@ -13,6 +28,13 @@ class runSelenium(object):
         except NoSuchElementException:
             return False
         return True
+
+    def getJsonData(self,title,url):
+        movie = {
+            'name': title,
+            'url': url
+        }
+        return movie
     
     def getElementData(self):
         html_list = self.driver.find_element_by_id("mvlist")
@@ -22,6 +44,7 @@ class runSelenium(object):
             title = movie.text
             url = movie.get_attribute('href')
             print("{} ({})".format(title, url))
+            data.append((title,url))
         self.goNextPage()
 
     def goNextPage(self):
@@ -44,3 +67,4 @@ class runSelenium(object):
 if __name__ == '__main__':
     run = runSelenium()
     run.selenium()
+    app.run(debug=True)
