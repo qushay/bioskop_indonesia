@@ -13,6 +13,8 @@ RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x
 RUN tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/
 # create a soft link phantomjs binary file to systems bin dirctory
 RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
+# Install flask
+RUN pip install flask
 
 ADD now.py /home/now.py
 ADD soon.py /home/soon.py
