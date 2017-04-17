@@ -16,7 +16,11 @@ RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/loca
 # Install flask
 RUN pip install flask
 
+EXPOSE 5000
+
 ADD now.py /home/now.py
 ADD soon.py /home/soon.py
 
 WORKDIR /home
+
+ENTRYPOINT ["python now.py &"]
